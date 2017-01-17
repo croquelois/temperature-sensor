@@ -12,9 +12,6 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 let data = []; // put that in a DB
-data.push({time:1484614061369,temperature:19.562});
-data.push({time:1484614061370,temperature:19.625});
-data.push({time:1484614061371,temperature:19.562});
 let key = "croq"; // put that somewhere else
 
 app.post("/in", function(req, res){
@@ -22,7 +19,7 @@ app.post("/in", function(req, res){
     if(req.body["key"] != key)
       return res.status(400).send("invalid key");
     req.body["data"].forEach(d => data.push(d));
-    res.status(200).send(data);
+    res.status(200).send();
   }catch(err){
     console.log.error(err.stack?err.stack:err);
     res.status(500).send("server error");
