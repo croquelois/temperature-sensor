@@ -15,10 +15,15 @@ $(function(){
 
   function processData(data){
     console.log(data);
+    let min = 15;
+    let max = 25;
+    data = data.filter(d => !d.error);
+    let graph = data.map(d => [d.time,d.temperature]);
+    $.plot($("#graph"), [ graph ], {xaxis:{mode:"time"}, yaxis:{min,max}});
   }
 
   function loginPopup(){
-    localStorage.key = null;
+    localStorage.serverKey = null;
     $('#modalLogin').openModal({dismissible: false});
   }
 
@@ -28,18 +33,18 @@ $(function(){
     ajaxOut(key,function(err,res){
       ready();
       if(err) return errorPopup(err);
-      localStorage.key = key;
+      localStorage.serverKey = key;
       processData(res);
       $('#modalLogin').closeModal();
     });
   });
 
-  if(localStorage.key){
+  if(localStorage.serverKey){
     let ready = waitPopup();
-    return ajaxOut(localStorage.key, function(err,res){
+    return ajaxOut(localStorage.serverKey, function(err,res){
       ready();
       if(err){
-          localStorage.key = null;
+          localStorage.serverKey = null;
           return loginPopup();
       }
       processData(res);
