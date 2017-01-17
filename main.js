@@ -3,7 +3,7 @@
 var fs = require("fs");
 var exec = require("child_process").exec;
 var assert = require("assert");
-var delay = 1000;
+var delay = 60000;
 var errorDelay = 100;
 var deviceFolder = "28-041685d663ff";
 

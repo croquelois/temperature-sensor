@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <style>
+        nav.top-nav {
+            height: 122px;
+            box-shadow: none;
+        }
+        nav.top-nav a.page-title {
+            line-height: 122px;
+            font-size: 48px;
+        }
+        .modal .modal-footer .btn {
+            margin: 6px;
+        }
+      </style>
+    </head>
+
+    <body>
+      <header>
+        <nav class="top-nav">
+          <div class="container">
+            <div class="nav-wrapper"><a id="page-title" class="page-title">Temperature sensor</a></div>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <div id="data" class="row">
+          <div class="container">
+          </div>
+        </div>
+      </main>
+
+      <div id="modalError" class="modal">
+        <div class="modal-content">
+          <h4>Error</h4>
+          <p id="modalErrorMessage"></p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-action modal-close waves-effect btn-flat ">Ok</a>
+        </div>
+      </div>
+
+      <div id="modalWait" class="modal">
+        <div class="modal-content">
+          <h4>Wait</h4>
+          <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-red-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="modalLogin" class="modal">
+        <div class="modal-content">
+          <h4>Enter key</h4>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="modalLoginKey" type="password" class="validate">
+                  <label for="modalLoginKey">Key</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a id="modalLoginSignup" class="modal-action waves-effect waves-teal white btn black-text">Signup</a>
+          <a id="modalLoginOk" class="modal-action waves-effect waves-light btn">Ok</a>
+        </div>
+      </div>
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.js"></script>
+      <script type="text/javascript" src="js/ajaxHelper.js"></script>
+      <script type="text/javascript" src="js/main.js"></script>
+      <script type="text/javascript" src="js/renfort.js"></script>
+    </body>
+  </html>
