@@ -17,9 +17,15 @@ $(function(){
     console.log(data);
     let min = 15;
     let max = 25;
+    let minT, maxT;
     data = data.filter(d => !d.error);
-    let graph = data.map(d => [d.time,d.temperature]);
-    $.plot($("#graph"), [ graph ], {xaxis:{mode:"time"}, yaxis:{min,max}});
+    let graph = data.map(function(d){
+      if(minT === undefined || minT > d.time) minT = d.time;
+      if(maxT === undefined || maxT < d.time) maxT = d.time;
+      return [d.time,d.temperature];
+    });
+    console.log({minT,maxT});
+    $.plot($("#graph"), [ graph ], {xaxis:{mode:"time",min:minT,max:maxT}, yaxis:{min,max}});
   }
 
   function loginPopup(){
