@@ -13,9 +13,8 @@ make sure than ```/boot/config.txt``` contain ```dtoverlay=w1-gpio``` and reboot
 it can run alone, and don't need any additional library
 
 ## server side
-server.js is done to run on a machine somewhere, it's a webserver he will receive data from the raspberry pi and server it to clients.
+server.js is done to run on a machine somewhere, it's a webserver he receive data from the raspberry pi and serve it to clients.
 
 ## what's missing
-- filtering & plot on webclient side
-- connection raspberry pi to server
+- filtering on webclient side
 - database storage

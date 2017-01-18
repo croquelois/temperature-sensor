@@ -13,7 +13,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let data = []; // put that in a DB
 //data = (""+require("fs").readFileSync("temperature.txt")).split("\n").map(function(line){ let l = line.split(","); return l.length>1?{time:+(l[0]),temperature:+(l[2])}:null; }).filter(d => d);
-let key = "croq"; // put that somewhere else
+if(process.argv.length < 3) return console.log("syntax: node server.js <key>");
+let key = process.argv[2];
 
 app.post("/in", function(req, res){
   try{
