@@ -18,7 +18,7 @@ var reqPost = function(){
        try{
          err = JSON.parse(err.responseText).msg;
        }catch(ex){
-         err = "unknown error";
+         err = err.responseText || "unknown error";
        }
        cb(err,null);
      });

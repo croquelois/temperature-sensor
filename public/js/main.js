@@ -1,13 +1,23 @@
 /* jshint esversion:6 */
 
-function errorPopup(msg){
+function errorPopup(msg,cb){
   $('#modalErrorMessage').text(""+msg);
-  $('#modalError').openModal({dismissible: true});
+  $('#modalError').openModal({
+    dismissible: true,
+    complete: cb
+  });
+  $('#modalErrorBtn').focus();
 }
 
+let waitPopupRunning = false;
 function waitPopup(){
+  if(waitPopupRunning) return;
+  waitPopupRunning = true;
   $('#modalWait').openModal({dismissible: false});
-  return function(){ $('#modalWait').closeModal(); };
+  return function(){
+    waitPopupRunning = false;
+    $('#modalWait').closeModal();
+  };
 }
 
 $(function(){
@@ -31,18 +41,27 @@ $(function(){
   function loginPopup(){
     localStorage.serverKey = null;
     $('#modalLogin').openModal({dismissible: false});
+    $('#modalLoginKey').focus();
   }
 
   $('#modalLoginOk').click(function(){
     let key = $("#modalLoginKey").val();
     let ready = waitPopup();
+    if(!ready) return;
     ajaxOut(key,function(err,res){
       ready();
-      if(err) return errorPopup(err);
+      if(err) return errorPopup(err, function(){ $('#modalLoginKey').focus(); });
       localStorage.serverKey = key;
       processData(res);
       $('#modalLogin').closeModal();
     });
+  });
+
+  $('#modalLoginKey').keypress(function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      $('#modalLoginOk').click();
+    }
   });
 
   if(localStorage.serverKey){
