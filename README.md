@@ -14,7 +14,11 @@ it can run alone, and don't need any additional library
 
 ## server side
 server.js is done to run on a machine somewhere, it's a webserver he receive data from the raspberry pi and serve it to clients.
+it use a mongodb database
+```
+node server.js <theKey> <mongoUrl>
+```
 
 ## what's missing
 - filtering on webclient side
-- database storage
+- fallback to in memory if no mongoUrl

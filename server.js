@@ -1,10 +1,10 @@
 /* jshint esversion:6, node:true, loopfunc:true, undef: true, unused: true, sub:true */
 "use strict";
-var express = require('express');
-var bodyParser = require('body-parser');
-var http = require('http');
-var path = require('path');
-var MongoClient = require('mongodb').MongoClient;
+let express = require('express');
+let bodyParser = require('body-parser');
+let http = require('http');
+let path = require('path');
+let MongoClient = require('mongodb').MongoClient;
 
 if(process.argv.length < 3) return console.log("syntax: node server.js <key> [<mongodbUrl>]");
 let key = process.argv[2];
@@ -28,7 +28,7 @@ app.post("/in", function(req, res){
       res.status(200).send();
     });
   }catch(err){
-    console.log.error(err.stack?err.stack:err);
+    console.error(err.stack?err.stack:err);
     res.status(500).send("server error");
   }
 });

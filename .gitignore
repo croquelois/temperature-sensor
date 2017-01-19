@@ -1,5 +1,5 @@
 node_modules
-temperature.txt
+temperature*.txt
 
 # Windows image file caches
 Thumbs.db
