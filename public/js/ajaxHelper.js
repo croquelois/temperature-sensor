@@ -26,6 +26,12 @@ var reqPost = function(){
 }();
 
 // User
-function ajaxOut(key,cb){
-  reqPost("out",{key},cb);
+function ajaxOut(key,opt,cb){
+  let arg = {key};
+  if(!cb){
+    cb = opt;
+    opt = {};
+  }
+  for(let k in opt) arg[k] = opt[k];
+  reqPost("out",arg,cb);
 }

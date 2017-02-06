@@ -20,5 +20,4 @@ node server.js <theKey> <mongoUrl>
 ```
 
 ## what's missing
-- filtering on webclient side
 - fallback to in memory if no mongoUrl

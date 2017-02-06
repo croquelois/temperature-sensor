@@ -1,4 +1,5 @@
-/* jshint esversion:6 */
+/* jshint esversion:6, undef: true, unused: true, sub:true */
+/* global $, localStorage, ajaxOut */
 
 function errorPopup(msg,cb){
   $('#modalErrorMessage').text(""+msg);
@@ -24,37 +25,50 @@ $(function(){
   "use strict";
 
   function processData(data){
-    console.log(data);
-    let min = 15;
-    let max = 25;
+    let min = 15, max = 25;
     let minT, maxT;
     data = data.filter(d => !d.error);
     let graph = data.map(function(d){
       if(minT === undefined || minT > d.time) minT = d.time;
       if(maxT === undefined || maxT < d.time) maxT = d.time;
+      if(min > d.temperature) min = d.temperature;
+      if(max < d.temperature) max = d.temperature;
       return [d.time,d.temperature];
     });
-    console.log({minT,maxT});
     $.plot($("#graph"), [ graph ], {xaxis:{mode:"time",min:minT,max:maxT}, yaxis:{min,max}});
   }
 
   function loginPopup(){
     localStorage.serverKey = null;
-    $('#modalLogin').openModal({dismissible: false});
+    if(!$('#modalLogin').is(':visible'))
+      $('#modalLogin').openModal({dismissible: false});
     $('#modalLoginKey').focus();
   }
 
-  $('#modalLoginOk').click(function(){
-    let key = $("#modalLoginKey").val();
+  function getTemperature(opt){
+    opt = opt || {};
+    let key = opt.key = opt.key || localStorage.serverKey;
+    opt.startTime = opt.startTime || (new Date()) - 1000*60*60*24*7;
+
     let ready = waitPopup();
     if(!ready) return;
-    ajaxOut(key,function(err,res){
+    ajaxOut(key,opt,function(err,res){
       ready();
-      if(err) return errorPopup(err, function(){ $('#modalLoginKey').focus(); });
-      localStorage.serverKey = key;
+      if(err) return errorPopup(err, function(){ loginPopup(); });
+      localStorage.serverKey = opt.key;
       processData(res);
       $('#modalLogin').closeModal();
     });
+  }
+
+  $('#modalLoginOk').click(function(){
+    getTemperature({key:$("#modalLoginKey").val()});
+  });
+
+  $('.datepicker').pickadate({});
+  $('#startTime').change(function(){
+    let startTime = $('#startTime').pickadate('picker').get('select').obj.getTime();
+    getTemperature({startTime});
   });
 
   $('#modalLoginKey').keypress(function(event){
@@ -64,15 +78,5 @@ $(function(){
     }
   });
 
-  if(localStorage.serverKey){
-    let ready = waitPopup();
-    return ajaxOut(localStorage.serverKey, function(err,res){
-      ready();
-      if(err){
-          localStorage.serverKey = null;
-          return loginPopup();
-      }
-      processData(res);
-    });
-  }else loginPopup();
+  getTemperature();
 });
